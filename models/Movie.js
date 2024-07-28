@@ -21,12 +21,13 @@ const movieSchema = new mongoose.Schema({
     featured:{
         type: Boolean,
     },
-    booking:[{type:String}],
+    booking:[{type: mongoose.Types.ObjectId, ref: "Bookings"}],
     admin:{
-        type:String,
+        type: mongoose.Types.ObjectId,
+        ref:"Admin",
         required:true,
     },
 
 });
 
-export default mongoose.model("Movie",movieSchema);
+export default mongoose.model("Movie", movieSchema);
