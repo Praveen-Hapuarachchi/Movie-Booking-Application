@@ -16,8 +16,8 @@ export const getAllUsers = async(req,res,next) =>{
     return res.status(200).json({users});
 };
 
-export const addUser = async(req,res,next)=>{
-    const {name,email,password} = req.body;
+export const signup = async(req,res,next)=>{
+    const {name, email, password} = req.body;
     if(
         !name && 
         name.trim() === "" && 
@@ -32,7 +32,7 @@ export const addUser = async(req,res,next)=>{
     const hashedPassword = bcrypt.hashSync(password);
     let user;
     try{
-        user = new User({name,email,password:hashedPassword});//does not visible userpassword for backend developer 
+        user = new User({name, email, password : hashedPassword});//does not visible userpassword for backend developer 
         user = await user.save();
     } catch(err){
         return console.log(err);
@@ -40,8 +40,10 @@ export const addUser = async(req,res,next)=>{
     if(!user){
         return res.status(500).json({message:"Unexpected Error Occured"});
     }
-    return res.status(201).json({user})
+    return res.status(201).json(user);
 };
+
+
 
 export const updateUser = async (req,res,next) => {
     const id = req.params.id;
@@ -73,7 +75,8 @@ export const updateUser = async (req,res,next) => {
     }
     res.status(200).json({message:"Update Sucessfully!!"});
 
-}
+};
+
 
 export const deleteUser = async (req,res,next) => {
     const id = req.params.id;
@@ -114,12 +117,12 @@ export const login = async(req,res,next) => {
         .json({message:"Unable to find user from this ID"});
     }
     
-    const isPasswordCorrect = bcrypt.compareSync(password,existingUser.password);
+    const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
 
     if(!isPasswordCorrect){
         return res.status(400).json({message:"Incorrect Password"});
     }
-    return res.status(200).json({message:"Login Successfully"});
+    return res.status(200).json({message:"Login Successfully",id:existingUser._id});
 
 };
 

@@ -1,6 +1,7 @@
 import express from "express";//connect the localhost 5000
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRouter from "./routes/user-routes.js";
 import adminRouter from "./routes/admin-routes.js";
 import movieRouter from "./routes/movie-routes.js";
@@ -11,6 +12,7 @@ const app = express();//Now express handle all operation in our app
 
 //middlewares
 app.use(express.json());
+app.use(cors());
 app.use("/user",userRouter);
 app.use("/admin",adminRouter);
 app.use("/movie",movieRouter);
