@@ -130,7 +130,7 @@ export const getBookingsOfUser = async(req,res,next) => {
     const id = req.params.id;
     let bookings;
     try{
-        bookings= await Bookings.find({user:id});
+        bookings= await Bookings.find({user:id}).populate('user').populate('movie');//.populate('user').populate('movie') get chat gpt
     } catch(err){
         console.log(err);
     }
@@ -138,4 +138,18 @@ export const getBookingsOfUser = async(req,res,next) => {
         return res.status(500).json({message:"Unable to get Booking"});
     }
     return res.status(200).json({bookings});
+};
+
+export const getUserById = async (req,res,next) => {
+    const id = req.params.id;
+    let user;
+    try{
+        user = await User.findById(id);
+    } catch(err){
+        return console.log(err);
+    }
+    if(!user){
+        return res.status(500).json({message:"Unexpected Error occured "});
+    }
+    return res.status(200).json({user});
 };

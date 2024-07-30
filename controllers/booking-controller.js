@@ -65,7 +65,7 @@ export const deleteBooking = async(req,res,next) => {
     const id = req.params.id;
     let booking;
     try{
-        booking = await Bookings.findByIdAndDelete(id).populate("user movie");// populate use to delete all refference function as well that mean User,Movie
+        booking = await Bookings.findByIdAndDelete(id).populate("user").populate("movie");// populate use to delete all refference function as well that mean User,Movie
         console.log(booking);
         const session = await mongoose.startSession();
         session.startTransaction();
